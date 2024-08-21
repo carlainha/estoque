@@ -1,5 +1,6 @@
 package br.com.caroline.estoque.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,8 +16,17 @@ public class Categoria {
     private int id;
     private String nome;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categoria")
-    private List<Produto> produtosLista = new ArrayList<>();
+    private List<Produto> produtosList = new ArrayList<>();
+
+    public List<Produto> getProdutosList() {
+        return produtosList;
+    }
+
+    public void setProdutosList(List<Produto> produtosList) {
+        this.produtosList = produtosList;
+    }
 
     public int getId() {
         return id;
