@@ -1,5 +1,6 @@
 package br.com.caroline.estoque.controllers;
 
+import br.com.caroline.estoque.model.Categoria;
 import br.com.caroline.estoque.model.Produto;
 import br.com.caroline.estoque.repositories.ProdutoRepository;
 import br.com.caroline.estoque.services.ProdutoService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/produtos")
@@ -23,6 +25,11 @@ public class ProdutoController {
     @GetMapping
     public List<Produto> listarTodosProdutos(){
         return produtoRepository.findAll(Sort.by("nomeproduto").ascending());
+    }
+
+    public ResponseEntity<Produto> buscarPeloCodigo(@PathVariable Long id){
+        Optional<Produto> produto =produtoRepository.findById(id);
+        return produto.isPresent() ? ResponseEntity.ok(produto.get()) : ResponseEntity.notFound().build();
     }
 
     @PostMapping()

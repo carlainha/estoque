@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/categorias")
@@ -21,9 +22,15 @@ public class CategoriaController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    @GetMapping
+    @GetMapping()
     public List<Categoria> listarTodasCategorias(){
         return categoriaRepository.findAll(Sort.by("nome").ascending());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable int id) {
+        Optional<Categoria> categoria = categoriaRepository.findById(id);
+        return categoria.isPresent() ? ResponseEntity.ok(categoria.get()) : ResponseEntity.notFound().build();
     }
 
     @PostMapping()
