@@ -38,4 +38,10 @@ public class CategoriaController {
         Categoria categoriaSalva = categoriaService.salvar(categoria);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable int id){
+        categoriaRepository.deleteById(id);
+    }
 }

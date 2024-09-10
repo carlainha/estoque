@@ -27,6 +27,7 @@ public class ProdutoController {
         return produtoRepository.findAll(Sort.by("nomeproduto").ascending());
     }
 
+    @GetMapping("/{id}")
     public ResponseEntity<Produto> buscarPeloCodigo(@PathVariable Long id){
         Optional<Produto> produto =produtoRepository.findById(id);
         return produto.isPresent() ? ResponseEntity.ok(produto.get()) : ResponseEntity.notFound().build();
@@ -36,5 +37,11 @@ public class ProdutoController {
     public ResponseEntity<Produto> inserir (@RequestBody Produto produto){
         Produto produtoSalva = produtoService.salvar(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalva);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover (@PathVariable Long id){
+        produtoRepository.deleteById(id);
     }
 }
