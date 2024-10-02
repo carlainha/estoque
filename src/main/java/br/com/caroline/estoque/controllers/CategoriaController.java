@@ -2,8 +2,11 @@ package br.com.caroline.estoque.controllers;
 
 import br.com.caroline.estoque.model.Categoria;
 import br.com.caroline.estoque.repositories.CategoriaRepository;
+import br.com.caroline.estoque.repositories.filter.CategoriaFilter;
 import br.com.caroline.estoque.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,11 @@ public class CategoriaController {
     private CategoriaRepository categoriaRepository;
 
     @GetMapping()
+    public Page<Categoria> pesquisar(CategoriaFilter categoriaFilter, Pageable pageable){
+        return categoriaRepository.filtrar(categoriaFilter, pageable);
+    }
+
+    @GetMapping("/todas")
     public List<Categoria> listarTodasCategorias(){
         return categoriaRepository.findAll(Sort.by("nome").ascending());
     }
