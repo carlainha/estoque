@@ -52,4 +52,11 @@ public class CategoriaController {
     public void remover(@PathVariable int id){
         categoriaRepository.deleteById(id);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Categoria> atualizar(@PathVariable int id, @RequestBody Categoria categoria){
+        Categoria categoriaSalva = categoriaService.atualizar(id,categoria);
+
+        return ResponseEntity.ok(categoriaSalva);
+    }
 }
